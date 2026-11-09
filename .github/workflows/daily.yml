@@ -1,0 +1,25 @@
+name: Briefing quotidien Forex
+
+on:
+  schedule:
+    - cron: "30 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Lancer les deux robots
+        env:
+          TELEGRAM_TOKEN_EURUSD: ${{ secrets.TELEGRAM_TOKEN_EURUSD }}
+          TELEGRAM_TOKEN_XAUUSD: ${{ secrets.TELEGRAM_TOKEN_XAUUSD }}
+        run: python main.py
